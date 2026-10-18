@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Chat\ChatConfig;
 use AstrX\Chat\ChatIdentity;
@@ -17,8 +17,9 @@ use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
 use AstrX\Routing\UrlGenerator;
 use AstrX\Session\PrgHandler;
-use AstrX\Site\DefaultTemplateContext;
+use AstrX\Template\TemplateVars;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Per-user chat display settings. Page row: WORDING_CHAT_SETTINGS, template=1.
@@ -41,7 +42,7 @@ final class ChatSettingsController extends AbstractController
 
     public function __construct(
         DiagnosticsCollector                    $collector,
-        private readonly DefaultTemplateContext $ctx,
+        private readonly TemplateVars $ctx,
         private readonly Request                $request,
         private readonly ChatPresenceService    $presence,
         private readonly ChatSettingsService    $settings,

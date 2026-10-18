@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Auth\Gate;
 use AstrX\Auth\Permission;
@@ -10,6 +10,7 @@ use AstrX\Chat\ChatConfig;
 use AstrX\Http\Request;
 use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Raw chat-attachment endpoint — no template wrapping (page template=0).

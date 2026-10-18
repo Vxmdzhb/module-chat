@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Chat\ChatConfig;
 use AstrX\Chat\ChatPmService;
@@ -11,6 +11,7 @@ use AstrX\I18n\Translator;
 use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * The auto-refreshing private-messages pane, served as an <iframe> body of the

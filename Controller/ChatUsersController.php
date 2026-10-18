@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Auth\Gate;
 use AstrX\Auth\Permission;
@@ -21,6 +21,7 @@ use AstrX\Session\PrgHandler;
 use AstrX\Theme\ThemeService;
 use AstrX\User\UserGroup;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * The auto-refreshing online-users pane, served as an <iframe> body of the chat

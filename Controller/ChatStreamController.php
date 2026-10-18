@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Chat\ChatConfig;
 use AstrX\Chat\ChatPmService;
@@ -20,6 +20,7 @@ use AstrX\Routing\UrlGenerator;
 use AstrX\Session\PrgHandler;
 use AstrX\Theme\ThemeService;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * The auto-refreshing message pane, served as the <iframe> body of the chat

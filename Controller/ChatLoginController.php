@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Admin\BanlistRepository;
 use AstrX\Auth\Gate;
@@ -28,10 +28,11 @@ use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
 use AstrX\Routing\UrlGenerator;
 use AstrX\Session\PrgHandler;
-use AstrX\Site\DefaultTemplateContext;
+use AstrX\Template\TemplateVars;
 use AstrX\User\UserGroup;
 use AstrX\User\UserRepository;
 use AstrX\User\UserSession;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Chat entry / guest-login controller — page file_name `chat_login`, template=1.
@@ -58,7 +59,7 @@ final class ChatLoginController extends AbstractController
 
     public function __construct(
         DiagnosticsCollector                    $collector,
-        private readonly DefaultTemplateContext $ctx,
+        private readonly TemplateVars $ctx,
         private readonly Request                $request,
         private readonly UserSession            $session,
         private readonly ChatConfig             $config,

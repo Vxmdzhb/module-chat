@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Chat\Controller;
 
 use AstrX\Chat\ChatConfig;
 use AstrX\Chat\ChatNav;
 use AstrX\I18n\Translator;
 use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
-use AstrX\Site\DefaultTemplateContext;
+use AstrX\Template\TemplateVars;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Chat Help page — file_name `chat_help`, template=1. A static informational
@@ -21,7 +22,7 @@ final class ChatHelpController extends AbstractController
 {
     public function __construct(
         DiagnosticsCollector                    $collector,
-        private readonly DefaultTemplateContext $ctx,
+        private readonly TemplateVars $ctx,
         private readonly ChatConfig             $config,
         private readonly ChatNav                $nav,
         private readonly Translator             $t,
