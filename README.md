@@ -2,6 +2,8 @@
 
 No-JavaScript chat: rooms, private messages, attachments, moderation — the **Chat** module of [AstrX](https://github.com/Vxmdzhb/astrx).
 
+![The chat](docs/screenshot.png)
+
 - Module key: `chat` (switch it on in the site's `resources/config/Modules.config.php`)
 - Pages: `admin_chat_filters`, `admin_config_chat`, `chat_admin`, `chat`, `chat_file`, `chat_help`, `chat_login`, `chat_pm`, `chat_settings`, `chat_stream`, `chat_users`, `chat_wait`
 - Requires: `astrx/cms`, `astrx/framework`, `astrx/library`
