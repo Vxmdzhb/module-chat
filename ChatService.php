@@ -207,7 +207,7 @@ final class ChatService
         // Rate-limit / mute key: members key on their account (user id); GUESTS
         // key on their per-visitor chat ident (the presence token) — NOT the Tor
         // exit IP every guest shares — so one guest tripping the flood limit can't
-        // mute all guests and the cooldown is per-visitor (R3-16). The 32-hex-char
+        // mute all guests and the cooldown is per-visitor. The 32-hex-char
         // ident packs to 16 bytes, matching the VARBINARY(16) `ip` column the
         // flood/mute lookups key on. The real $packedIp is still used above for
         // the filter-kick ban.
@@ -377,8 +377,8 @@ final class ChatService
     }
 
     /**
-     * Whether the current user may delete the given message row (used to decide
-     * whether to render a delete control). Mirrors deleteMessage()'s authorization.
+     * Whether the current user may delete the given message (to decide whether
+     * to show a delete control). Same rules as deleteMessage().
      *
      * @param array<string,mixed> $row
      */

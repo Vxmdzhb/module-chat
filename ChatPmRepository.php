@@ -100,7 +100,7 @@ final class ChatPmRepository
 
     /**
      * UNIX timestamp of the most recent PM SENT by $fromIdent, or null if none.
-     * Backs the per-sender PM cooldown (R3-25) — keyed on from_ident, which is
+     * Backs the per-sender PM cooldown — keyed on from_ident, which is
      * the sender's per-visitor ident, so it needs no dedicated timestamp column.
      *
      * @return Result<?int>

@@ -9,7 +9,7 @@ namespace AstrX\Chat;
  * Security model — "escape first, then tokenise":
  *   1. The ENTIRE input is htmlspecialchars-escaped up front, so any `<`, `>`,
  *      `"`, `'`, `&` become inert text and NOTHING the user types can ever
- *      become live HTML. This is the whole ballgame: the steps below only ever
+ *      become live HTML. Everything rests on this: the steps below only ever
  *      ADD a fixed, hard-coded allowlist of tags around already-escaped text.
  *   2. An allowlist of BBCode tags ([b] [i] [u] [s] [quote] [code] [color]) is
  *      converted to a fixed set of HTML tags via a STACK parser, so output is

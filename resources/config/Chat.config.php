@@ -17,7 +17,7 @@ return [
         'entry_password'         => '',     // shared password guests must enter (blank = off)
         'chat_enabled'           => true,   // master switch; false shows the disabled message (staff bypass)
         'disabled_message'       => '',     // shown to non-staff when chat_enabled is false
-        // Guest entry policy (le-chat "guestaccess"). Replaces the old members_only flag.
+        // Guest entry policy (le-chat's "guestaccess").
         'guest_access_mode'      => 'waiting_room', // open | waiting_room | moderator_approval | members_only
         'approval_fallback_waiting' => true,        // approval mode: fall back to the timed room when no mod is online
 

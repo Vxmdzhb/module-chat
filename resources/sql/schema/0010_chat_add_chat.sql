@@ -122,8 +122,8 @@ VALUES
     ('WORDING_CHAT_WAIT',       1, 'chat_wait',         1, 1, 0, 0),
     ('WORDING_ADMIN_CONFIG_CHAT', 1, 'admin_config_chat', 1, 1, 0, 0);
 
--- The waiting room renders inside the site chrome (template=1); upgrade any
--- row created by an earlier version of this migration on re-run.
+-- The waiting room renders inside the site chrome (template=1). Update rows
+-- created before that on re-run.
 UPDATE `page` SET template = 1 WHERE url_id = 'WORDING_CHAT_WAIT';
 
 -- Self-closures + meta + robots for every new page.

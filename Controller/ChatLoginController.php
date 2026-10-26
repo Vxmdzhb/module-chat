@@ -176,11 +176,10 @@ final class ChatLoginController extends AbstractController
         if ($custom !== '' && @preg_match($custom, '') !== false) {
             $pattern = $custom;
         }
-        // @-guarded: a malformed pattern makes preg_match return false + emit an
-        // E_WARNING (which the error handler turns into a 500). Suppress the warning
-        // and treat false/no-match alike as an invalid nick — never a 500. (The
-        // built-in pattern can no longer be malformed now ChatConfig enforces
-        // nick_max_len >= nick_min_len; this also covers the custom-regex branch.)
+        // @-guarded: a malformed pattern makes preg_match return false with an
+        // E_WARNING, which would become a 500. Treat false like no match: an invalid
+        // nick. (ChatConfig keeps the built-in pattern valid; this covers custom
+        // regexes.)
         if (@preg_match($pattern, $nick) !== 1) {
             $this->emit(new ChatNickInvalidDiagnostic('astrx.chat/nick_invalid', DiagnosticLevel::NOTICE));
             return;

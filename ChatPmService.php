@@ -52,7 +52,7 @@ final class ChatPmService
         }
 
         // Anti-abuse: PMs must respect the same mute as public messages, else a
-        // muted user can still spam via PM (F-06). Guests key on their per-visitor
+        // muted user can still spam via PM. Guests key on their per-visitor
         // ident (not the shared Tor IP), matching how the mute is recorded post
         // R3-16; members key on their account.
         $hexUserId  = $from->isMember ? $from->userId : null;
@@ -64,7 +64,7 @@ final class ChatPmService
             return $this->err('muted');
         }
 
-        // Per-sender PM cooldown (R3-25): PMs enforced mute + censor but had no
+        // Per-sender PM cooldown: PMs enforced mute + censor but had no
         // flood limit, so scripted PM floods weren't stopped. Reuse the public-
         // message flood interval, keyed on the sender's ident (per-visitor for
         // guests, per-account for members) via chat_pm.from_ident.

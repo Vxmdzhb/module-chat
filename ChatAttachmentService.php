@@ -133,7 +133,7 @@ final class ChatAttachmentService
         return $r->isOk() ? $r->unwrap() : [];
     }
 
-    /** Remove a stored file (used to roll back if the message row fails). */
+    /** Remove a stored file (to roll back when the message row can't be written). */
     public function discard(string $storedName): void
     {
         $dir = $this->config->uploadDir();

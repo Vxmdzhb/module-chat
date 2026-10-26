@@ -115,7 +115,7 @@ final class AdminConfigChatController extends AbstractController
      */
     private function sectionFrom(array $p): array
     {
-        // R11 (HIGH image_embed / MED upload_dir): both are SYSTEM-level. With
+        // Both are SYSTEM-level. With
         // image_embed ON, BbcodeRenderer turns any posted image URL into an <img>
         // that EVERY viewer's browser auto-fetches — an IP-correlation / de-
         // anonymization channel against all chat participants on a hidden service

@@ -15,19 +15,18 @@ use AstrX\Template\TemplateVars;
 use AstrX\Kernel\AbstractController;
 
 /**
- * Chat waiting room — page file_name `chat_wait`, template=1.
+ * Chat waiting room: page file_name `chat_wait`, template=1.
  *
- * A guest who joined the roster while a waiting period is configured lands here.
- * Unlike a bare interstitial, this is a NORMAL templated page: it renders inside
- * the site chrome (header, nav, active theme) exactly like every other page, so
- * it no longer looks foreign. The countdown auto-advances via an HTTP
- * `Refresh: 2` header (no JavaScript) — each reload re-evaluates the state.
+ * Guests who join while a waiting period is configured land here. It renders
+ * inside the normal site chrome like any other page. The countdown moves on
+ * with an HTTP `Refresh: 2` header (no JavaScript), and every reload checks
+ * the state again.
  *
- * State machine (agrees with the chat shell):
- *   - no identity                        → redirect to the login/entry page.
- *   - no presence row / already active   → redirect to the chat shell.
- *   - waited long enough                 → promote to ACTIVE, redirect to shell.
- *   - otherwise                          → render the themed countdown + refresh.
+ * State (the same rules as the chat shell):
+ *   - no identity                       → redirect to the entry page;
+ *   - no presence row / already active  → redirect to the chat;
+ *   - waited long enough                → promote to active, redirect to chat;
+ *   - otherwise                         → show the countdown and refresh.
  */
 final class ChatWaitController extends AbstractController
 {

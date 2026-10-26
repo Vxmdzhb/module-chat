@@ -45,7 +45,7 @@ final class ChatFilterService
      */
     public function all(): Result
     {
-        if ($this->gate->cannot(ChatPermission::MODERATE)) {   // R12: filters are a moderation tool
+        if ($this->gate->cannot(ChatPermission::MODERATE)) {   // Filters are a moderation tool
             return $this->denied();
         }
         return $this->repo->all();
@@ -54,7 +54,7 @@ final class ChatFilterService
     /** @return Result<int> new filter id */
     public function add(string $pattern, int $kind, int $action, bool $applyToMods): Result
     {
-        if ($this->gate->cannot(ChatPermission::MODERATE)) {   // R12: filters are a moderation tool
+        if ($this->gate->cannot(ChatPermission::MODERATE)) {   // Filters are a moderation tool
             return $this->denied();
         }
         $pattern = trim($pattern);
@@ -69,7 +69,7 @@ final class ChatFilterService
     /** @return Result<bool> */
     public function remove(int $id): Result
     {
-        if ($this->gate->cannot(ChatPermission::MODERATE)) {   // R12: filters are a moderation tool
+        if ($this->gate->cannot(ChatPermission::MODERATE)) {   // Filters are a moderation tool
             return $this->denied();
         }
         if ($id <= 0) {

@@ -79,9 +79,8 @@ final class ChatModerationService
             return $this->denied();
         }
         [$hexUserId, $packedIp] = $this->identityBits($p);
-        // Mute keys on the account (members) or the per-visitor chat ident
-        // (guests) — never the shared Tor exit IP, which would mute every guest
-        // and, post R3-16, would no longer match the guest's own post-time check.
+        // Mutes key on the account (members) or the per-visitor chat identity
+        // (guests), never the shared Tor exit IP, which would mute every guest.
         $muteKey = $hexUserId !== null ? null : (ChatIdentity::guestRateKey($ident) ?? $packedIp);
         return $this->chat->addMute($hexUserId, $muteKey, max(1, $secs));
     }
@@ -104,7 +103,7 @@ final class ChatModerationService
         $ipStr     = is_scalar($p['ip_str'] ?? null) ? (string) $p['ip_str'] : '';
         $isMember  = $this->isMemberFlag($p);
         $hexUserId = $isMember && is_scalar($p['user_id'] ?? null) ? (string) $p['user_id'] : '';
-        // R10 LOW: cap a finite ban horizon at 10 years so a saturated duration
+        // Cap a finite ban horizon at 10 years so a saturated duration
         // can't overflow time()+dur into a float and 500 date() (strict_types).
         // durationSecs <= 0 still means a permanent ban (null end).
         $end       = $durationSecs > 0 ? date('Y-m-d H:i:s', time() + min($durationSecs, 315360000)) : null;

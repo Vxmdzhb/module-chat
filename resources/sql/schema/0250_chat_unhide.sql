@@ -1,27 +1,13 @@
--- ---------- migrate_zzz_chat_unhide.sql ----------
+-- ---------- chat pages are routable ----------
 -- ============================================================
--- AstrX migration: unhide chat pages
+-- Chat pages must be hidden=0. A hidden page is a 404 for everyone but
+-- admins, who get a "this page is hidden" banner instead. The chat pages are
+-- protected by their own controllers (CHAT_MODERATE, ADMIN_CONFIG_CHAT), and
+-- `hidden` has nothing to do with the navbar, which comes from the `navbar`
+-- table. INSERT IGNORE can't fix an existing row, hence this UPDATE.
 --
--- Symptom: an admin viewing a chat page (e.g. the in-chat Admin panel or the
--- chat configuration page) sees the banner
---     "⚠ Admin view: this page is hidden from public visitors."
---
--- Cause: that page's row carries hidden=1 on a long-lived install. The
--- framework's ContentManager 404s a hidden page for non-admins AND shows
--- admins that banner (astrx.content/page_hidden):
---
---     $adminViewingHidden = $page->hidden && $gate->can(ADMIN_ACCESS);
---     if (!$adminViewingHidden && $page->hidden) { http_response_code(404); }
---
--- The chat pages are internal / gated by their own controllers, not public
--- navbar entries — the navbar is built from the `navbar` table, so `hidden`
--- has ZERO impact on navigation (same rationale as migrate_captcha_unhide.sql).
--- The correct value is hidden=0: routable, with the controller enforcing
--- access (CHAT_MODERATE / ADMIN_CONFIG_CHAT). A registration migration's
--- INSERT IGNORE cannot rewrite an existing row, so this UPDATE corrects it.
---
--- Named zzz_* so it runs after every page-registration migration. Idempotent,
--- safe to re-run (the guard skips rows already at 0).
+-- Runs after every page-registration piece. Idempotent (rows already at 0
+-- are skipped).
 -- ============================================================
 
 UPDATE `page`

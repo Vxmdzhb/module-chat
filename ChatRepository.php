@@ -286,7 +286,7 @@ final class ChatRepository
     public function addMute(?string $hexUserId, ?string $packedIp, int $durationSecs): Result
     {
         try {
-            // R10 LOW: clamp the horizon so an absurd duration can't crash the
+            // Clamp the horizon so an absurd duration can't crash the
             // mute. A mod entering a huge number → (int) saturates near
             // PHP_INT_MAX → time()+dur overflows to float → date() TypeError under
             // strict_types → 500. Cap at 10 years (effectively permanent).

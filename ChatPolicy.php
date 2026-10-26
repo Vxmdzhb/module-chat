@@ -34,9 +34,8 @@ final class ChatPolicy implements PolicyInterface
     public function evaluate(Permission $permission, Identity $identity, object $resource): PolicyVerdict
     {
         $authorTypeRaw = $resource->user_type ?? null;
-        // A null/unknown author type is a GUEST message (rank 0) — NOT USER, whose
-        // enum value happens to be 0. Passing 0 previously mislabelled guest posts
-        // as USER (rank 1), diverging from this class's own comment and CommentPolicy.
+        // A null or unknown author type is a guest message (rank 0), not USER, whose
+        // enum value also happens to be 0.
         $authorType    = UserGroup::tryFrom(is_int($authorTypeRaw) ? $authorTypeRaw : UserGroup::GUEST->value)
             ?? UserGroup::GUEST;
 

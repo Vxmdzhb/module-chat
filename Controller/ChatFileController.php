@@ -60,11 +60,9 @@ final class ChatFileController extends AbstractController
         $stored = is_scalar($row['stored_name'] ?? null) ? (string) $row['stored_name'] : '';
         $mime   = is_scalar($row['mime'] ?? null) ? (string) $row['mime'] : '';
 
-        // Defence in depth: the name must be exactly what we write (hex + ext),
-        // and the mime one of the two we ever produce.
-        // Accept every format the ImageSanitizer can emit: jpg/png from the
-        // re-encode path, and gif/webp preserved verbatim when metadata-strip is
-        // OFF (animation opt-out). Previously gif/webp were stored yet 404'd (F-10).
+        // The name must be exactly what we write (hex + extension), and the type one
+        // of those ImageSanitizer produces: jpg/png from re-encoding, and gif/webp
+        // kept as they are when metadata stripping is off (to keep animations).
         if (preg_match('/^[a-f0-9]{32}\.(?:jpg|png|gif|webp)$/', $stored) !== 1
             || !in_array($mime, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'], true)) {
             http_response_code(404);
