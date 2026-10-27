@@ -1,6 +1,7 @@
 {
     "name": "astrx/module-chat",
     "description": "No-JavaScript chat: rooms, private messages, attachments, moderation",
+    "license": "LicenseRef-DoWhatever",
     "type": "astrx-module",
     "keywords": [
         "astrx",
