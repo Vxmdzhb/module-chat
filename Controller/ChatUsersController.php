@@ -235,30 +235,34 @@ final class ChatUsersController extends AbstractController
                 $roleHtml = ' <span class="chat-role chat-mod">' . $this->esc($modTag) . '</span>';
             }
 
-            $actionsHtml = '';
-            if ($canModerate && $ident !== '' && $ident !== $viewerIdent) {
-                $actionsHtml = $this->modForms($ident, $prgId, $token);
-            }
-
             // Personal ignore toggle — shown for everyone (not just moderators),
             // for every roster row except the viewer's own.
-            $ignoreHtml = '';
+            $ignoreForm = '';
             if ($ident !== '' && $ident !== $viewerIdent) {
                 $nick    = self::mStr($u, 'nick', '');
                 $label   = $this->presence->isIgnored($nick)
                     ? $this->t->t('chat.unignore')
                     : $this->t->t('chat.ignore');
-                $ignoreHtml = ' <span class="chat-mod-actions chat-personal-actions">'
-                    . '<form method="post" class="chat-mod chat-ignore">'
+                $ignoreForm = '<form method="post" class="chat-mod chat-ignore">'
                     . '<input type="hidden" name="prg_id" value="' . $this->esc($prgId) . '">'
                     . '<input type="hidden" name="_csrf" value="' . $this->esc($token) . '">'
                     . '<input type="hidden" name="action" value="ignore">'
                     . '<input type="hidden" name="nick" value="' . $this->esc($nick) . '">'
                     . '<button type="submit">' . $this->esc($label) . '</button>'
-                    . '</form></span>';
+                    . '</form>';
             }
 
-            $out .= '<li>' . $nameHtml . $roleHtml . $actionsHtml . $ignoreHtml . '</li>';
+            // A moderator gets two lines: the one-click actions with Ignore,
+            // then the ban with room for its reason. Everyone else: Ignore.
+            if ($canModerate && $ident !== '' && $ident !== $viewerIdent) {
+                $actionsHtml = $this->modForms($ident, $prgId, $token, $ignoreForm);
+            } elseif ($ignoreForm !== '') {
+                $actionsHtml = ' <span class="chat-mod-actions chat-personal-actions">' . $ignoreForm . '</span>';
+            } else {
+                $actionsHtml = '';
+            }
+
+            $out .= '<li>' . $nameHtml . $roleHtml . $actionsHtml . '</li>';
         }
         $out .= '</ul>';
 
@@ -300,8 +304,8 @@ final class ChatUsersController extends AbstractController
         return $out . '</ul></div>';
     }
 
-    /** The kick / mute / ban forms for one roster row. */
-    private function modForms(string $ident, string $prgId, string $token): string
+    /** The kick / mute / purge forms and Ignore on one line, the ban on the next. */
+    private function modForms(string $ident, string $prgId, string $token, string $ignoreForm): string
     {
         $hidden = '<input type="hidden" name="prg_id" value="' . $this->esc($prgId) . '">'
             . '<input type="hidden" name="_csrf" value="' . $this->esc($token) . '">'
@@ -335,7 +339,8 @@ final class ChatUsersController extends AbstractController
             . '<button type="submit">' . $this->esc($this->t->t('chat.purge')) . '</button>'
             . '</form>';
 
-        return ' <span class="chat-mod-actions">' . $kick . $mute . $purge . $ban . '</span>';
+        return ' <span class="chat-mod-actions">' . $kick . $mute . $purge . $ignoreForm . '</span>'
+            . '<span class="chat-mod-actions chat-ban-line">' . $ban . '</span>';
     }
 
     /**

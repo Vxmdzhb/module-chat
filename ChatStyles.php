@@ -202,9 +202,12 @@ ul.chat-users-list { list-style: none; margin: 0; padding: 0; line-height: 1.5; 
 .chat-mod-actions { display: block; margin: 2px 0 3px; }
 .chat-mod-actions form { display: inline; margin-right: 4px; }
 .chat-mod-actions input[type=text], .chat-mod-actions input[type=number] {
-    width: 44px; font: inherit; padding: 0 3px;
+    width: 44px; font: inherit; padding: 0 3px; margin-right: 4px;
     background: transparent; color: inherit; border: 1px solid currentColor;
 }
+/* The ban line: the reason box takes the room the button leaves. */
+.chat-ban-line form { display: flex; align-items: center; gap: 4px; margin: 0; }
+.chat-ban-line input[type=text] { flex: 1; min-width: 0; width: auto; margin-right: 0; }
 CSS;
     }
 
@@ -227,6 +230,8 @@ CSS;
 #chat .chat-mod-tools { margin: 2px 0 8px; }
 #chat .chat-mod-tools form { display: inline; margin-right: 10px; }
 #chat .chat-mod-tools .input { padding: 0 5px; }
+/* Wide enough for a whole topic (up to 255 characters), never wider than the page. */
+#chat .chat-mod-tools input[name=topic] { width: 32em; max-width: 100%; box-sizing: border-box; }
 #chat .chat-pm-badge { font-weight: bold; }
 #chat .chat-panes { display: flex; gap: 8px; align-items: stretch; margin: 5px 0 8px; }
 #chat .chat-stream { flex: 1 1 auto; height: 55vh; min-width: 0; box-sizing: border-box; border: 1px solid currentColor; background: transparent; }
