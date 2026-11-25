@@ -359,7 +359,7 @@ final class ChatUsersController extends AbstractController
 
         if ($isMember) {
             if ($linkProfiles && $hexUserId !== '') {
-                $url = $profileBase . '?uid=' . rawurlencode($hexUserId);
+                $url = $profileBase . (str_contains($profileBase, '?') ? '&' : '?') . 'uid=' . rawurlencode($hexUserId);
                 return '<a class="chat-user chat-member" href="' . $this->esc($url) . '"' . $style . ' target="_top">'
                     . $inner . '</a>';
             }

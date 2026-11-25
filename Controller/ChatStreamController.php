@@ -347,7 +347,7 @@ final class ChatStreamController extends AbstractController
 
         if ($isMember) {
             if ($linkProfiles && $hexUserId !== '') {
-                $url = $profileBase . '?uid=' . rawurlencode($hexUserId);
+                $url = $profileBase . (str_contains($profileBase, '?') ? '&' : '?') . 'uid=' . rawurlencode($hexUserId);
                 return '<a class="chat-user chat-member" href="' . $this->esc($url) . '"' . $style . ' target="_top">'
                     . $inner . '</a>';
             }
@@ -443,7 +443,7 @@ final class ChatStreamController extends AbstractController
         $w   = is_scalar($att['width'] ?? null)  ? (int) $att['width']  : 0;
         $h   = is_scalar($att['height'] ?? null) ? (int) $att['height'] : 0;
         $dim = ($w > 0 && $h > 0) ? ' width="' . $w . '" height="' . $h . '"' : '';
-        $url = $this->esc($fileBase) . '?t=' . $tok;
+        $url = $this->esc($fileBase . (str_contains($fileBase, '?') ? '&' : '?') . 't=' . $tok);
         return '<div class="chat-attachment"><a href="' . $url . '" target="_blank" rel="noopener noreferrer nofollow">'
             . '<img src="' . $url . '"' . $dim . ' alt="" referrerpolicy="no-referrer" loading="lazy"></a></div>';
     }
