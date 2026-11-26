@@ -28,7 +28,7 @@ return [
         // ── Messages ──────────────────────────────────────────────────────
         'max_length'             => 2000,   // max characters per message
         'messages_shown'         => 50,     // messages rendered in the stream
-        'retention_minutes'      => 1440,   // message lifetime before GC
+        'retention_minutes'      => 0,      // message lifetime in minutes before GC (0 = keep forever)
         'newest_first'           => true,   // stream order (newest at top)
         'bbcode_enabled'         => true,   // allow the BBCode subset
         'link_conversion'        => true,   // auto-link bare URLs
@@ -60,7 +60,7 @@ return [
 
         // ── Private messages ──────────────────────────────────────────────
         'allow_pm'               => true,
-        'pm_retention_minutes'   => 1440,
+        'pm_retention_minutes'   => 0,      // private message lifetime in minutes (0 = keep forever)
         'disable_guest_pm'       => false,  // guests may not send PMs (members still can)
 
         // ── Word censor ───────────────────────────────────────────────────

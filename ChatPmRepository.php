@@ -12,7 +12,8 @@ use PDOException;
 
 /**
  * Data-access for `chat_pm` — private messages between two idents.
- * Retention is enforced with expires_at (lazy GC on read, like chat_message).
+ * Retention is enforced with expires_at (lazy GC on read, like chat_message);
+ * NULL means the message is kept until someone deletes it.
  */
 final class ChatPmRepository
 {
@@ -27,7 +28,7 @@ final class ChatPmRepository
         string  $toNick,
         ?string $color,
         string  $content,
-        string  $expiresAt,
+        ?string $expiresAt,
     ): Result {
         try {
             $stmt = $this->pdo->prepare(
@@ -85,7 +86,7 @@ final class ChatPmRepository
                         to_ident, to_nick, color, content,
                         UNIX_TIMESTAMP(created_at) AS created_ts, read_at
                    FROM chat_pm
-                  WHERE (to_ident = :id OR from_ident = :id2) AND expires_at > NOW()
+                  WHERE (to_ident = :id OR from_ident = :id2) AND (expires_at IS NULL OR expires_at > NOW())
                   ORDER BY created_at DESC, id DESC LIMIT :lim'
             );
             $stmt->bindValue(':id', $ident);
@@ -125,7 +126,7 @@ final class ChatPmRepository
     {
         try {
             $stmt = $this->pdo->prepare(
-                'SELECT COUNT(*) FROM chat_pm WHERE to_ident = :id AND read_at IS NULL AND expires_at > NOW()'
+                'SELECT COUNT(*) FROM chat_pm WHERE to_ident = :id AND read_at IS NULL AND (expires_at IS NULL OR expires_at > NOW())'
             );
             $stmt->execute([':id' => $ident]);
             return Result::ok((int) $stmt->fetchColumn());

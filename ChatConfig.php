@@ -44,7 +44,7 @@ final class ChatConfig
     // ── Messages ──────────────────────────────────────────────────────────
     private int  $maxLength           = 2000;
     private int  $messagesShown       = 50;
-    private int  $retentionMinutes    = 1440;
+    private int  $retentionMinutes    = 0;      // 0 = keep forever
     private bool $newestFirst         = true;
     private bool $bbcodeEnabled       = true;
     private bool $linkConversion      = true;
@@ -68,7 +68,7 @@ final class ChatConfig
     private string $defaultColor      = '';
     // ── Private messages ──────────────────────────────────────────────────
     private bool $allowPm             = true;
-    private int  $pmRetentionMinutes  = 1440;
+    private int  $pmRetentionMinutes  = 0;      // 0 = keep forever
     // ── Word censor ───────────────────────────────────────────────────────
     /** @var list<string> */
     private array  $censorWords       = [];
@@ -127,7 +127,7 @@ final class ChatConfig
     #[InjectConfig('waiting_room_mandatory')] public function setWaitingRoomMandatory(bool $v): void { $this->waitingRoomMandatory = $v; }
     #[InjectConfig('max_length')]            public function setMaxLength(int $v): void            { $this->maxLength = max(1, $v); }
     #[InjectConfig('messages_shown')]        public function setMessagesShown(int $v): void        { $this->messagesShown = max(1, $v); }
-    #[InjectConfig('retention_minutes')]     public function setRetentionMinutes(int $v): void     { $this->retentionMinutes = max(1, $v); }
+    #[InjectConfig('retention_minutes')]     public function setRetentionMinutes(int $v): void     { $this->retentionMinutes = max(0, $v); }
     #[InjectConfig('newest_first')]          public function setNewestFirst(bool $v): void         { $this->newestFirst = $v; }
     #[InjectConfig('bbcode_enabled')]        public function setBbcodeEnabled(bool $v): void       { $this->bbcodeEnabled = $v; }
     #[InjectConfig('link_conversion')]       public function setLinkConversion(bool $v): void      { $this->linkConversion = $v; }
@@ -147,7 +147,7 @@ final class ChatConfig
     #[InjectConfig('allow_user_color')]      public function setAllowUserColor(bool $v): void      { $this->allowUserColor = $v; }
     #[InjectConfig('default_color')]         public function setDefaultColor(string $v): void      { $this->defaultColor = trim($v); }
     #[InjectConfig('allow_pm')]              public function setAllowPm(bool $v): void             { $this->allowPm = $v; }
-    #[InjectConfig('pm_retention_minutes')]  public function setPmRetentionMinutes(int $v): void   { $this->pmRetentionMinutes = max(1, $v); }
+    #[InjectConfig('pm_retention_minutes')]  public function setPmRetentionMinutes(int $v): void   { $this->pmRetentionMinutes = max(0, $v); }
     /** @param list<string> $v */
     #[InjectConfig('censor_words')]          public function setCensorWords(array $v): void        { $this->censorWords = array_values(array_filter($v, 'is_string')); }
     #[InjectConfig('censor_mode')]           public function setCensorMode(string $v): void        { $this->censorMode = $v === 'block' ? 'block' : 'replace'; }
@@ -219,6 +219,15 @@ final class ChatConfig
     public function defaultColor(): string      { return $this->defaultColor; }
     public function allowPm(): bool             { return $this->allowPm; }
     public function pmRetentionMinutes(): int   { return $this->pmRetentionMinutes; }
+
+    /**
+     * When a message written now expires, as a database time, for a lifetime
+     * in minutes; null (never) for 0.
+     */
+    public static function expiresAt(int $minutes): ?string
+    {
+        return $minutes > 0 ? date('Y-m-d H:i:s', time() + $minutes * 60) : null;
+    }
     /** @return list<string> */
     public function censorWords(): array        { return $this->censorWords; }
     public function censorMode(): string        { return $this->censorMode; }

@@ -141,7 +141,7 @@ final class AdminConfigChatController extends AbstractController
             // ── Messages ────────────────────────────────────────────────────
             'max_length'              => self::mInt($p, 'max_length', 2000),
             'messages_shown'          => self::mInt($p, 'messages_shown', 50),
-            'retention_minutes'       => self::mInt($p, 'retention_minutes', 1440),
+            'retention_minutes'       => self::mInt($p, 'retention_minutes', 0),
             'newest_first'            => self::mBool($p, 'newest_first'),
             'bbcode_enabled'          => self::mBool($p, 'bbcode_enabled'),
             'link_conversion'         => self::mBool($p, 'link_conversion'),
@@ -168,7 +168,7 @@ final class AdminConfigChatController extends AbstractController
             'default_font_family'     => trim(self::mStr($p, 'default_font_family', '')),
             // ── Private messages ────────────────────────────────────────────
             'allow_pm'                => self::mBool($p, 'allow_pm'),
-            'pm_retention_minutes'    => self::mInt($p, 'pm_retention_minutes', 1440),
+            'pm_retention_minutes'    => self::mInt($p, 'pm_retention_minutes', 0),
             'disable_guest_pm'        => self::mBool($p, 'disable_guest_pm'),
             // ── Word censor ─────────────────────────────────────────────────
             'censor_words'            => self::parseCensorWords(self::mStr($p, 'censor_words', '')),

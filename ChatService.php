@@ -252,7 +252,7 @@ final class ChatService
             $attachMeta = $storeResult->unwrap();
         }
 
-        $expiresAt    = date('Y-m-d H:i:s', time() + $this->config->retentionMinutes() * 60);
+        $expiresAt    = ChatConfig::expiresAt($this->config->retentionMinutes());
         $createResult = $this->repo->create($roomId, $hexUserId, $nick, $color, $content, $expiresAt, $storeIp, $type);
 
         if ($attachMeta !== null) {
@@ -324,7 +324,7 @@ final class ChatService
             return $this->opErr('room_not_found');
         }
         $roomId    = $this->int($room, 'id', 0);
-        $expiresAt = date('Y-m-d H:i:s', time() + $this->config->retentionMinutes() * 60);
+        $expiresAt = ChatConfig::expiresAt($this->config->retentionMinutes());
         return $this->repo->create($roomId, null, $byNick, null, $message, $expiresAt, null, 'broadcast');
     }
 
@@ -346,7 +346,7 @@ final class ChatService
             return Result::ok(0);
         }
         $roomId    = $this->int($room, 'id', 0);
-        $expiresAt = date('Y-m-d H:i:s', time() + $this->config->retentionMinutes() * 60);
+        $expiresAt = ChatConfig::expiresAt($this->config->retentionMinutes());
         return $this->repo->create($roomId, null, $nick, null, $event, $expiresAt, null, 'system');
     }
 

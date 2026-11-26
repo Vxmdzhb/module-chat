@@ -56,7 +56,7 @@
     <tr><th>{{label_messages_shown}}</th>
       <td><input type="number" name="messages_shown" value="{{cfg_messages_shown}}" min="1" class="input"></td></tr>
     <tr><th>{{label_retention_minutes}}</th>
-      <td><input type="number" name="retention_minutes" value="{{cfg_retention_minutes}}" min="1" class="input"> min</td></tr>
+      <td><input type="number" name="retention_minutes" value="{{cfg_retention_minutes}}" min="0" class="input"> min</td></tr>
     <tr><th>{{label_newest_first}}</th>
       <td><input type="checkbox" name="newest_first" value="1"{{#cfg_newest_first}} checked{{/cfg_newest_first}} class="input"></td></tr>
     <tr><th>{{label_bbcode_enabled}}</th>
@@ -125,7 +125,7 @@
     <tr><th>{{label_allow_pm}}</th>
       <td><input type="checkbox" name="allow_pm" value="1"{{#cfg_allow_pm}} checked{{/cfg_allow_pm}} class="input"></td></tr>
     <tr><th>{{label_pm_retention_minutes}}</th>
-      <td><input type="number" name="pm_retention_minutes" value="{{cfg_pm_retention_minutes}}" min="1" class="input"> min</td></tr>
+      <td><input type="number" name="pm_retention_minutes" value="{{cfg_pm_retention_minutes}}" min="0" class="input"> min</td></tr>
     <tr><th>{{label_disable_guest_pm}}</th>
       <td><input type="checkbox" name="disable_guest_pm" value="1"{{#cfg_disable_guest_pm}} checked{{/cfg_disable_guest_pm}} class="input"></td></tr>
   </table>

@@ -99,7 +99,7 @@ final class ChatPmService
         }
         $content = $censored['text'];
 
-        $expiresAt = date('Y-m-d H:i:s', time() + $this->config->pmRetentionMinutes() * 60);
+        $expiresAt = ChatConfig::expiresAt($this->config->pmRetentionMinutes());
         return $this->repo->create(
             $from->ident, $from->nick, $from->userId, $toIdent, $toNickActual, $from->color, $content, $expiresAt
         );

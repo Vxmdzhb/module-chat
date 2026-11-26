@@ -81,7 +81,7 @@ final class ChatRepository
                             COALESCE(u.display_name, u.username) AS user_display_name,
                             u.avatar AS user_has_avatar
                        FROM chat_message m LEFT JOIN user u ON u.id = m.user_id
-                      WHERE m.room_id = :room AND m.expires_at > NOW()
+                      WHERE m.room_id = :room AND (m.expires_at IS NULL OR m.expires_at > NOW())
                       ORDER BY m.id DESC LIMIT :lim
                  ) sub ORDER BY sub.id ASC"
             );
@@ -133,7 +133,7 @@ final class ChatRepository
         ?string $nick,
         ?string $color,
         string  $content,
-        string  $expiresAt,
+        ?string $expiresAt,
         ?string $packedIp,   // raw output of inet_pton()
         string  $type = 'user',
     ): Result {
