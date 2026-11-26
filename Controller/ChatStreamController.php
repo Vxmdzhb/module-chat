@@ -188,8 +188,9 @@ final class ChatStreamController extends AbstractController
         $reportLabel  = $this->t->t('chat.report');
         $linkProfiles = $this->config->namesLinkToProfile();
         $tsFormat     = $this->config->timestampFormat();
-        $profileBase  = $this->urlGen->toPage($this->t->t('WORDING_PROFILE'));
-        $fileBase     = $this->urlGen->toPage($this->t->t('WORDING_CHAT_FILE'));
+        // A profile by id: /en/profile/uid/<hex> (ProfileController reads both forms).
+        $profileBase  = $this->urlGen->paramPrefix($this->urlGen->toPage($this->t->t('WORDING_PROFILE')), 'uid');
+        $fileBase     = $this->urlGen->paramPrefix($this->urlGen->toPage($this->t->t('WORDING_CHAT_FILE')), 't');
         $pmTag        = $this->t->t('chat.pm_tag');
         $fromWord     = $this->t->t('chat.pm.from');
         $toWord       = $this->t->t('chat.pm.to');
@@ -347,7 +348,7 @@ final class ChatStreamController extends AbstractController
 
         if ($isMember) {
             if ($linkProfiles && $hexUserId !== '') {
-                $url = $profileBase . (str_contains($profileBase, '?') ? '&' : '?') . 'uid=' . rawurlencode($hexUserId);
+                $url = $profileBase . rawurlencode($hexUserId);
                 return '<a class="chat-user chat-member" href="' . $this->esc($url) . '"' . $style . ' target="_top">'
                     . $inner . '</a>';
             }
@@ -443,7 +444,7 @@ final class ChatStreamController extends AbstractController
         $w   = is_scalar($att['width'] ?? null)  ? (int) $att['width']  : 0;
         $h   = is_scalar($att['height'] ?? null) ? (int) $att['height'] : 0;
         $dim = ($w > 0 && $h > 0) ? ' width="' . $w . '" height="' . $h . '"' : '';
-        $url = $this->esc($fileBase . (str_contains($fileBase, '?') ? '&' : '?') . 't=' . $tok);
+        $url = $this->esc($fileBase . $tok);
         return '<div class="chat-attachment"><a href="' . $url . '" target="_blank" rel="noopener noreferrer nofollow">'
             . '<img src="' . $url . '"' . $dim . ' alt="" referrerpolicy="no-referrer" loading="lazy"></a></div>';
     }

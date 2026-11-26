@@ -200,7 +200,8 @@ final class ChatUsersController extends AbstractController
     {
         $canModerate  = $this->gate->can(ChatPermission::MODERATE);
         $linkProfiles = $this->config->namesLinkToProfile();
-        $profileBase  = $this->urlGen->toPage($this->t->t('WORDING_PROFILE'));
+        // A profile by id: /en/profile/uid/<hex> (ProfileController reads both forms).
+        $profileBase  = $this->urlGen->paramPrefix($this->urlGen->toPage($this->t->t('WORDING_PROFILE')), 'uid');
 
         $adminTag = $this->t->t('chat.role_admin');
         $modTag   = $this->t->t('chat.role_mod');
@@ -359,7 +360,7 @@ final class ChatUsersController extends AbstractController
 
         if ($isMember) {
             if ($linkProfiles && $hexUserId !== '') {
-                $url = $profileBase . (str_contains($profileBase, '?') ? '&' : '?') . 'uid=' . rawurlencode($hexUserId);
+                $url = $profileBase . rawurlencode($hexUserId);
                 return '<a class="chat-user chat-member" href="' . $this->esc($url) . '"' . $style . ' target="_top">'
                     . $inner . '</a>';
             }
